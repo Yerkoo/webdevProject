@@ -1,0 +1,86 @@
+<div class="wrapper">
+
+  <div class="left">
+    <div class="logo">
+      <div class="logo-box">LOGO</div>
+      <div>
+        <h3>Online-Course</h3>
+        <p>Learn • Grow • Succeed</p>
+      </div>
+    </div>
+
+    <h1>Create Account</h1>
+
+    <p class="subtitle">
+      Join us and start building your future with online courses.
+    </p>
+
+    <div class="tags">
+      <span>Programming</span>
+      <span>Math</span>
+      <span>Language</span>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="card">
+
+      <div class="tabs">
+        <a routerLink="/login" class="tab-btn">Login</a>
+        <a routerLink="/register" class="tab-btn active">Register</a>
+      </div>
+
+      <h2>Sign Up</h2>
+      <p class="desc">Create your account and start learning.</p>
+
+      <form (ngSubmit)="register()">
+        <input
+          type="text"
+          placeholder="Username"
+          [(ngModel)]="username"
+          name="username"
+          required
+        >
+
+        <input
+          type="email"
+          placeholder="Email"
+          [(ngModel)]="email"
+          name="email"
+          required
+        >
+
+        <input
+          type="password"
+          placeholder="Password"
+          [(ngModel)]="password"
+          name="password"
+          required
+        >
+
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          [(ngModel)]="passwordConfirm"
+          name="passwordConfirm"
+          required
+        >
+
+        <p *ngIf="error" class="error">{{ error }}</p>
+
+        <button type="submit" class="btn">Register</button>
+      </form>
+
+      <p class="switch">
+        Already have an account?
+        <a routerLink="/login">Login</a>
+      </p>
+
+      <p class="bottom">
+        Your learning journey starts here.
+      </p>
+
+    </div>
+  </div>
+
+</div>

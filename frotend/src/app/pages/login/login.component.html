@@ -1,0 +1,70 @@
+<div class="wrapper">
+
+  <div class="left">
+    <div class="logo">
+      <div class="logo-box">LOGO</div>
+      <div>
+        <h3>Online-Course</h3>
+        <p>Learn • Grow • Succeed</p>
+      </div>
+    </div>
+
+    <h1>Welcome Back</h1>
+
+    <p class="subtitle">
+      Learn smarter, grow faster, and build your future with online courses.
+    </p>
+
+    <div class="tags">
+      <span>Programming</span>
+      <span>Math</span>
+      <span>Language</span>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="card">
+
+      <div class="tabs">
+        <a routerLink="/login" class="tab-btn active">Login</a>
+        <a routerLink="/register" class="tab-btn">Register</a>
+      </div>
+
+      <h2>Sign In</h2>
+      <p class="desc">Access your account and continue learning.</p>
+
+      <form (ngSubmit)="login()">
+        <input
+          type="text"
+          placeholder="Username"
+          [(ngModel)]="username"
+          name="username"
+          required
+        >
+
+        <input
+          type="password"
+          placeholder="Password"
+          [(ngModel)]="password"
+          name="password"
+          required
+        >
+
+        <p *ngIf="error" class="error">{{ error }}</p>
+
+        <button type="submit" class="btn">Login</button>
+      </form>
+
+      <p class="switch">
+        Don’t have an account?
+        <a routerLink="/register">Register</a>
+      </p>
+
+      <p class="bottom">
+        Your learning journey starts here.
+      </p>
+
+    </div>
+  </div>
+
+</div>
