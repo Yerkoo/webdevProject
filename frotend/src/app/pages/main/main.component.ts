@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet, RouterLink, RouterLinkActive  } from '@angular/router';
 
 @Component({
   selector: 'app-main',
   standalone: true,
   templateUrl: './main.html',
-  styleUrls: ['./main.component.css']
+  styleUrls: ['./main.component.css'],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive]
 })
 export class MainComponent implements OnInit {
 

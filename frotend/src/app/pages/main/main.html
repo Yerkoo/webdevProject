@@ -8,7 +8,10 @@
         <p>Learn • Grow • Succeed</p>
       </div>
     </div>
-
+    <div class="nav-bar">
+        <a routerLink="/main/course" routerLinkActive="active-link" class="nav-btn">Course</a>
+        <a routerLink="/main/create" routerLinkActive="active-link" class="nav-btn">Create Course</a>
+    </div>
     <div class="user-panel">
       <div class="user-avatar">
         {{ userName[0] }}{{ userName[1] || '' }}
@@ -24,4 +27,5 @@
       </button>
     </div>
   </header>
+  <router-outlet></router-outlet>
 </div>
