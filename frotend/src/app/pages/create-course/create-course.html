@@ -11,9 +11,19 @@
     <textarea [(ngModel)]="courseDescription" rows="4" placeholder="What will these lessons be about?"></textarea>
   </div>
 
-  <div class="form-group content-box">
+  <div class="form-group">
     <label>YouTube Video Link</label>
     <input type="text" [(ngModel)]="youtubeLink" placeholder="https://www.youtube.com/watch?v=...">
+  </div>
+
+  <div class="form-group">
+    <label>Cover Image URL</label>
+    <input type="text" [(ngModel)]="avatarUrl" placeholder="https://example.com/image.jpg">
+    
+    <div class="preview-box" *ngIf="avatarUrl">
+      <span>Cover Preview:</span>
+      <img [src]="avatarUrl" alt="Course Cover Preview" (error)="avatarUrl = ''">
+    </div>
   </div>
 
   <button class="submit-btn" (click)="onSubmit()">Publish Course</button>

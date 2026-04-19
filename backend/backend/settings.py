@@ -26,6 +26,7 @@ INSTALLED_APPS = [
 
 # our apps
 'users',
+'courses',
 
 ]
 
