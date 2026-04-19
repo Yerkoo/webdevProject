@@ -1,4 +1,26 @@
 
+.custom-select {
+  padding: 14px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 15px;
+  color: #1f2937;
+  background-color: #f9fafb;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  width: 100%;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.custom-select:focus {
+  outline: none;
+  border-color: #9d4edd;
+  box-shadow: 0 0 0 4px rgba(157, 78, 221, 0.1);
+  background-color: #ffffff;
+}
+
+
 .form-container {
   max-width: 550px; 
   margin: 50px auto; 
@@ -100,3 +122,4 @@ textarea {
   transform: translateY(-2px); 
   box-shadow: 0 8px 20px rgba(123, 44, 191, 0.3); 
 }
+
