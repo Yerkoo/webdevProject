@@ -11,35 +11,27 @@ import { CourseService } from '../../services/course';
   styleUrls: ['./course-deteil.css']
 })
 export class CourseDeteil implements OnInit {
-  // Course data, initially null
   course: any = null;
-  
-  // User profile data from main page
   userName: string = 'Guest';
   userEmail: string = 'guest@example.com';
+  currentUserId: number | null = null;
   
-  // Save status
   isSaved: boolean = false;
-  
-  // New interactive user rating state (0-5)
   userRating: number = 0;
+  isOwner: boolean = false; // Flag to check if current user is the author
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private courseService: CourseService,
-    private cdr: ChangeDetectorRef // Required for ngIf and variable updates
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    // 1. Load user profile data on init
     this.loadUserData();
-    
-    // 2. Load dynamic course data
     this.loadCourseData();
   }
 
-  // Set user profile from main page, handles JSON parsing
   private loadUserData(): void {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
@@ -47,6 +39,7 @@ export class CourseDeteil implements OnInit {
         const userObj = JSON.parse(storedUser);
         this.userName = userObj.username || userObj.name || 'Guest';
         this.userEmail = userObj.email || 'guest@example.com';
+        this.currentUserId = userObj.id; // Get current user's ID
       } catch (e) {
         console.error("Error parsing user data:", e);
       }
@@ -61,16 +54,28 @@ export class CourseDeteil implements OnInit {
           this.course = data.find((c: any) => String(c.id) === String(id));
           
           if (this.course) {
-            console.log("Course loaded ✅:", this.course);
-            // Update the view after data is loaded
+            // Logic to check ownership
+            // Assuming course object has 'author_id' or 'user_id'
+            this.isOwner = this.course.author_id === this.currentUserId;
             this.cdr.detectChanges();
-          } else {
-            console.error("Course not found for ID:", id);
           }
         },
-        error: (err) => console.error("Error loading courses:", err)
+        error: (err) => console.error("Error loading course:", err)
       });
     }
+  }
+
+  deleteCourse(): void {
+    if (confirm("Are you sure you want to delete this course?")) {
+      console.log("Deleting course ID:", this.course.id);
+      // Logic for service call: this.courseService.delete(this.course.id)...
+      this.router.navigate(['/main/course']);
+    }
+  }
+
+  updateCourse(): void {
+    console.log("Navigating to update page for course ID:", this.course.id);
+    // Logic: this.router.navigate(['/update-course', this.course.id]);
   }
 
   setUserRating(rating: number): void {
@@ -78,30 +83,23 @@ export class CourseDeteil implements OnInit {
     this.cdr.detectChanges();
   }
 
-  // Toggle course save status
   toggleSave(): void {
     this.isSaved = !this.isSaved;
-    console.log(`Course save status is now: ${this.isSaved}`);
   }
 
-  // Logout and redirect to login page
   logout(): void {
     localStorage.removeItem('user');
     this.router.navigate(['/login']);
   }
 
-  // Redirect to main courses page
   goToMain(): void {
     this.router.navigate(['/main/course']);
   }
 
-  // Open course link in a new tab
   startLearning(): void {
     const link = this.course?.video_url || this.course?.course_link;
     if (link) {
       window.open(link, '_blank');
-    } else {
-      alert("This course has no dynamic link.");
     }
   }
 }

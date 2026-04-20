@@ -29,6 +29,11 @@
 
     <div class="content-grid">
       <div class="text-section">
+        <div class="owner-controls" *ngIf="isOwner">
+          <button class="control-btn update" (click)="updateCourse()">Update Course</button>
+          <button class="control-btn delete" (click)="deleteCourse()">Delete Course</button>
+        </div>
+
         <h1 class="course-title">{{ course.title }}</h1>
         <p class="tagline">{{ course.description }}</p>
         
@@ -74,28 +79,16 @@
       <div class="review-form-card">
         <h3>Rate this course</h3>
         <div class="interactive-rating">
-          <span class="star-rating filled-stars-0">
-            <span class="star" (click)="setUserRating(1)">★</span>
-            <span class="star" (click)="setUserRating(2)">★</span>
-            <span class="star" (click)="setUserRating(3)">★</span>
-            <span class="star" (click)="setUserRating(4)">★</span>
-            <span class="star" (click)="setUserRating(5)">★</span>
+          <span class="star-rating">
+            <span class="star" *ngFor="let s of [1,2,3,4,5]" 
+                  [style.color]="userRating >= s ? '#ffb800' : '#eef1ff'"
+                  (click)="setUserRating(s)">★</span>
           </span>
           <span class="rating-label">{{ userRating > 0 ? userRating + ' / 5' : 'Select a rating' }}</span>
         </div>
-
         <textarea placeholder="Write your review here..."></textarea>
         <div class="form-footer">
           <button class="post-btn">Post Review</button>
-        </div>
-      </div>
-
-      <div class="review-list">
-        <div class="review-card">
-          <div class="rev-user">
-            <div class="rev-info">
-            </div>
-          </div>
         </div>
       </div>
     </section>
