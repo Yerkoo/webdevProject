@@ -33,7 +33,7 @@
         <p class="tagline">{{ course.description }}</p>
         
         <p class="full-description">
-          {{ course.full_description || 'This is a comprehensive course designed to help you master the subject from scratch. It includes theoretical foundations and practical assignments.' }}
+          {{ course.full_description || 'This is a comprehensive course designed to help you master the subject from scratch.' }}
         </p>
 
         <div class="stats-bar">
@@ -63,22 +63,29 @@
     <section class="reviews-section">
       <div class="reviews-header">
         <h2>Reviews & Ratings</h2>
-        <div class="overall-rating">
+        <div class="overall-rating-card">
           <span class="big-score">4.8</span>
           <div class="stars-col">
             <div class="stars-row">⭐⭐⭐⭐⭐</div>
-            <p>1,245 reviews</p>
           </div>
         </div>
       </div>
 
-      <div class="review-form">
+      <div class="review-form-card">
+        <h3>Rate this course</h3>
+        <div class="interactive-rating">
+          <span class="star-rating filled-stars-0">
+            <span class="star" (click)="setUserRating(1)">★</span>
+            <span class="star" (click)="setUserRating(2)">★</span>
+            <span class="star" (click)="setUserRating(3)">★</span>
+            <span class="star" (click)="setUserRating(4)">★</span>
+            <span class="star" (click)="setUserRating(5)">★</span>
+          </span>
+          <span class="rating-label">{{ userRating > 0 ? userRating + ' / 5' : 'Select a rating' }}</span>
+        </div>
+
         <textarea placeholder="Write your review here..."></textarea>
         <div class="form-footer">
-          <div class="rate-us">
-            <span>Your rating: </span>
-            <span class="star-input">⭐ ⭐ ⭐ ⭐ ⭐</span>
-          </div>
           <button class="post-btn">Post Review</button>
         </div>
       </div>
@@ -86,13 +93,9 @@
       <div class="review-list">
         <div class="review-card">
           <div class="rev-user">
-            <div class="rev-avatar">JD</div>
             <div class="rev-info">
-              <h4>John Doe</h4>
-              <p>2 days ago</p>
             </div>
           </div>
-          <p class="rev-text">This course is amazing! Everything is explained very clearly and the examples are helpful.</p>
         </div>
       </div>
     </section>
@@ -100,5 +103,5 @@
 </div>
 
 <ng-template #loading>
-  <div class="loader-box">Деректер жүктелуде...</div>
+  <div class="loader-box">Loading data...</div>
 </ng-template>
