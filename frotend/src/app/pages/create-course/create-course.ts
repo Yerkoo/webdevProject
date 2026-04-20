@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { CourseService } from '../../services/course';
 
 @Component({
   selector: 'app-create-course',
@@ -19,36 +19,47 @@ export class CreateCourse implements OnInit {
   categories: any[] = []; 
   selectedCategoryId: string = ''; 
 
-  constructor(private http: HttpClient) {}
+  constructor(private courseService: CourseService) {}
 
   ngOnInit() {
     this.fetchCategories();
   }
 
   fetchCategories() {
-    this.http.get<any[]>('http://127.0.0.1:8000/api/categories/').subscribe({
+    this.courseService.getCategories().subscribe({
       next: (data) => {
         this.categories = data;
-        console.log('Successfully loaded categories:', this.categories);
+        console.log('Categories loaded:', this.categories);
       },
       error: (err) => {
-        console.error('Error loading categories (is backend running?)', err);
+        console.error('Error loading categories:', err);
       }
     });
   }
 
-
-
- onSubmit() {
+  onSubmit() {
     const newCourse = {
       title: this.courseName,
       description: this.courseDescription,
       video_url: this.youtubeLink,
       avatar_url: this.avatarUrl,
-      category: this.selectedCategoryId 
+      category: this.selectedCategoryId
     };
 
-    console.log('Отправляем на бэкенд:', newCourse);
-    // Чуть позже тут будет this.http.post(...)
+    this.courseService.createCourse(newCourse).subscribe({
+      next: (response) => {
+        alert('Successfully created course!');
+        
+        this.courseName = '';
+        this.courseDescription = '';
+        this.youtubeLink = '';
+        this.avatarUrl = '';
+        this.selectedCategoryId = '';
+      },
+      error: (err) => {
+        console.error('Error creating course:', err);
+        alert('Oops, something went wrong.');
+      }
+    });
   }
 }
