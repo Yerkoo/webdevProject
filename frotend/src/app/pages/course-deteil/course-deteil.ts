@@ -14,11 +14,10 @@ export class CourseDeteil implements OnInit {
   course: any = null;
   userName: string = 'Guest';
   userEmail: string = 'guest@example.com';
-  currentUserId: number | null = null;
-  
+  currentUserId: any = null;
+  isOwner: boolean = false;
   isSaved: boolean = false;
   userRating: number = 0;
-  isOwner: boolean = false; // Flag to check if current user is the author
 
   constructor(
     private route: ActivatedRoute,
@@ -37,12 +36,10 @@ export class CourseDeteil implements OnInit {
     if (storedUser) {
       try {
         const userObj = JSON.parse(storedUser);
-        this.userName = userObj.username || userObj.name || 'Guest';
-        this.userEmail = userObj.email || 'guest@example.com';
-        this.currentUserId = userObj.id; // Get current user's ID
-      } catch (e) {
-        console.error("Error parsing user data:", e);
-      }
+        this.userName = userObj.username || 'Guest';
+        this.userEmail = userObj.email || '';
+        this.currentUserId = userObj.id; 
+      } catch (e) { console.error("User parsing error:", e); }
     }
   }
 
@@ -52,54 +49,48 @@ export class CourseDeteil implements OnInit {
       this.courseService.getAllCourses().subscribe({
         next: (data) => {
           this.course = data.find((c: any) => String(c.id) === String(id));
-          
           if (this.course) {
-            // Logic to check ownership
-            // Assuming course object has 'author_id' or 'user_id'
-            this.isOwner = this.course.author_id === this.currentUserId;
+            // Ownership validation: checks if current user is the author
+            this.isOwner = String(this.course.author_id) === String(this.currentUserId);
             this.cdr.detectChanges();
           }
         },
-        error: (err) => console.error("Error loading course:", err)
+        error: (err) => console.error("Data loading error:", err)
       });
     }
   }
 
   deleteCourse(): void {
-    if (confirm("Are you sure you want to delete this course?")) {
-      console.log("Deleting course ID:", this.course.id);
-      // Logic for service call: this.courseService.delete(this.course.id)...
-      this.router.navigate(['/main/course']);
+    if (!this.isOwner) {
+      alert("Permission denied. You are not the author of this course.");
+      return;
+    }
+
+    if (confirm("Are you sure you want to delete your course? This action cannot be undone.")) {
+      this.courseService.deleteCourse(this.course.id).subscribe({
+        next: () => {
+          alert("Course deleted successfully.");
+          this.router.navigate(['/main/course']);
+        },
+        error: (err) => {
+          console.error("Delete error:", err);
+          alert("Failed to delete course. Please check your connection.");
+        }
+      });
     }
   }
 
   updateCourse(): void {
-    console.log("Navigating to update page for course ID:", this.course.id);
-    // Logic: this.router.navigate(['/update-course', this.course.id]);
-  }
-
-  setUserRating(rating: number): void {
-    this.userRating = rating;
-    this.cdr.detectChanges();
-  }
-
-  toggleSave(): void {
-    this.isSaved = !this.isSaved;
-  }
-
-  logout(): void {
-    localStorage.removeItem('user');
-    this.router.navigate(['/login']);
-  }
-
-  goToMain(): void {
-    this.router.navigate(['/main/course']);
-  }
-
-  startLearning(): void {
-    const link = this.course?.video_url || this.course?.course_link;
-    if (link) {
-      window.open(link, '_blank');
+    if (this.isOwner) {
+      this.router.navigate(['/main/update-course', this.course.id]);
     }
   }
+
+  goToMain(): void { this.router.navigate(['/main/course']); }
+  logout(): void { 
+    localStorage.removeItem('user'); 
+    this.router.navigate(['/login']); 
+  }
+  setUserRating(rating: number): void { this.userRating = rating; this.cdr.detectChanges(); }
+  toggleSave(): void { this.isSaved = !this.isSaved; }
 }
