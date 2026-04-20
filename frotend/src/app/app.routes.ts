@@ -14,12 +14,13 @@ export const routes: Routes = [
     component: MainComponent, 
     children: [
       { path: 'course', component: CoursesComponent },
-      { path: 'course/:id', component: CourseDeteil },
       { path: 'create', component: CreateCourse },
       { path: '', redirectTo: 'course', pathMatch: 'full' } 
     ]
   },
+  
+  { path: 'course/:id', component: CourseDeteil },
 
+  { path: '', redirectTo: 'main', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' }
 ];
-

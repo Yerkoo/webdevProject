@@ -1,13 +1,10 @@
-import { Component } from '@angular/core';
+import { Routes } from '@angular/router';
+import { MainComponent } from './main.component';
+import { CourseDeteil } from '../course-deteil/course-deteil'; 
 
-@Component({
-  selector: 'app-main',
-  standalone: true,
-  template: `
-    <div style="padding:40px; font-family:Poppins;">
-      <h1>Welcome to Main Page </h1>
-      <p>You are successfully logged in.</p>
-    </div>
-  `
-})
-export class MainComponent {}
+export const routes: Routes = [
+  { path: '', redirectTo: 'main', pathMatch: 'full' },
+  { path: 'main', component: MainComponent },
+  { path: 'course/:id', component: CourseDeteil }, 
+  { path: '**', redirectTo: 'main' }
+];

@@ -1,25 +1,10 @@
 <div class="courses-page">
-  
-
   <div class="filter-bar">
-    <button 
-      [class.active]="activeCategoryId === 'all'" 
-      (click)="setFilter('all')">
-      All Courses
-    </button>
-    
-    <button 
-      [class.active]="activeCategoryId === 'my'" 
-      (click)="setFilter('my')">
-      My Courses
-    </button>
-    
+    <button [class.active]="activeCategoryId === 'all'" (click)="setFilter('all')">All Courses</button>
+    <button [class.active]="activeCategoryId === 'my'" (click)="setFilter('my')">My Courses</button>
     <div class="divider"></div>
-    
     @for (cat of categories; track cat.id) {
-      <button 
-        [class.active]="activeCategoryId === cat.id.toString()" 
-        (click)="setFilter(cat.id.toString())">
+      <button [class.active]="activeCategoryId === cat.id.toString()" (click)="setFilter(cat.id.toString())">
         {{ cat.name }}
       </button>
     }
@@ -27,7 +12,7 @@
 
   <div class="courses-grid">
     @for (course of filteredCourses; track course.id) {
-      <div class="course-card">
+      <div class="course-card" (click)="viewCourse(course.id)" style="cursor: pointer;">
         <div class="card-image">
           <img [src]="course.avatar_url" alt="Course Cover">
           <span class="category-badge">{{ course.category_name || 'General' }}</span>

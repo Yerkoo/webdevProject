@@ -1,1 +1,104 @@
-<p>course-deteil works!</p>
+<div class="main-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo">LOGO</div>
+      <div class="brand-text">
+        <h1>Online-Course</h1>
+        <p>Learn • Grow • Succeed</p>
+      </div>
+    </div>
+
+    <div class="nav-bar">
+      <a (click)="goToMain()" class="nav-btn active-link">Main Page</a>
+    </div>
+
+    <div class="user-panel">
+      <div class="user-avatar">
+        {{ userName[0]?.toUpperCase() }}{{ userName[1]?.toUpperCase() || '' }}
+      </div>
+      <div class="user-meta">
+        <h3>{{ userName }}</h3>
+        <p>{{ userEmail }}</p>
+      </div>
+      <button class="logout-btn" (click)="logout()" title="Logout">→</button>
+    </div>
+  </header>
+
+  <main class="detail-container" *ngIf="course; else loading">
+    <div class="breadcrumb">Programming / <span>{{ course.title }}</span></div>
+
+    <div class="content-grid">
+      <div class="text-section">
+        <h1 class="course-title">{{ course.title }}</h1>
+        <p class="tagline">{{ course.description }}</p>
+        
+        <p class="full-description">
+          {{ course.full_description || 'This is a comprehensive course designed to help you master the subject from scratch. It includes theoretical foundations and practical assignments.' }}
+        </p>
+
+        <div class="stats-bar">
+          <span class="stat-item">📖 32 lessons</span>
+          <span class="stat-item">⏱️ 4 hours</span>
+          <span class="stat-item">👤 5,829 students</span>
+        </div>
+
+        <div class="action-row">
+          <button class="start-btn" (click)="startLearning()">
+            <span>▶</span> Start Learning
+          </button>
+          <button class="save-btn" [class.saved]="isSaved" (click)="toggleSave()">
+            <span class="heart-icon">{{ isSaved ? '❤️' : '🤍' }}</span>
+            {{ isSaved ? 'Saved' : 'Save to Favorites' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="image-section">
+        <div class="course-card-preview">
+          <img [src]="course.avatar_url" alt="Course Image">
+        </div>
+      </div>
+    </div>
+
+    <section class="reviews-section">
+      <div class="reviews-header">
+        <h2>Reviews & Ratings</h2>
+        <div class="overall-rating">
+          <span class="big-score">4.8</span>
+          <div class="stars-col">
+            <div class="stars-row">⭐⭐⭐⭐⭐</div>
+            <p>1,245 reviews</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-form">
+        <textarea placeholder="Write your review here..."></textarea>
+        <div class="form-footer">
+          <div class="rate-us">
+            <span>Your rating: </span>
+            <span class="star-input">⭐ ⭐ ⭐ ⭐ ⭐</span>
+          </div>
+          <button class="post-btn">Post Review</button>
+        </div>
+      </div>
+
+      <div class="review-list">
+        <div class="review-card">
+          <div class="rev-user">
+            <div class="rev-avatar">JD</div>
+            <div class="rev-info">
+              <h4>John Doe</h4>
+              <p>2 days ago</p>
+            </div>
+          </div>
+          <p class="rev-text">This course is amazing! Everything is explained very clearly and the examples are helpful.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<ng-template #loading>
+  <div class="loader-box">Деректер жүктелуде...</div>
+</ng-template>
