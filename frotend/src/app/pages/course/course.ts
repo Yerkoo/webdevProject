@@ -1,9 +1,53 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CourseService } from '../../services/course';
 
 @Component({
-  selector: 'app-course',
-  imports: [],
+  selector: 'app-courses',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './course.html',
-  styleUrl: './course.css',
+  styleUrl: './course.css'
 })
-export class Course {}
+export class CoursesComponent implements OnInit {
+  allCourses: any[] = [];      
+  filteredCourses: any[] = []; 
+  categories: any[] = [];      
+  activeCategoryId: string = 'all'; 
+
+  constructor(private courseService: CourseService, private cdr: ChangeDetectorRef) {}
+
+  ngOnInit() {
+    this.loadData();
+  }
+
+  loadData() {
+    this.courseService.getCategories().subscribe(data => {
+      this.categories = data;
+      this.cdr.detectChanges(); //решении рпроблем с пустотами при первой загрузке
+
+    });
+
+    this.courseService.getAllCourses().subscribe(data => {
+      this.allCourses = data;
+      this.setFilter('all'); 
+      this.cdr.detectChanges(); //решении рпроблем с пустотами при первой загрузке
+    });
+  }
+
+  setFilter(categoryId: string) {
+    this.activeCategoryId = categoryId;
+    
+    if (categoryId === 'all') {
+      this.filteredCourses = this.allCourses; 
+      
+    } else if (categoryId === 'my') {
+     
+      this.filteredCourses = this.allCourses.filter(course => course.author_name === 'yerko');
+      
+    } else {
+      
+      this.filteredCourses = this.allCourses.filter(course => course.category?.toString() === categoryId.toString());
+    }
+  }
+}

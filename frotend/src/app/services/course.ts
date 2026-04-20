@@ -15,4 +15,7 @@ export class CourseService {
   createCourse(courseData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}courses/`, courseData);
   }
+  getAllCourses(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}courses/`);
+  }
 }

@@ -1,1 +1,47 @@
-<p>course works!</p>
+<div class="courses-page">
+  
+
+  <div class="filter-bar">
+    <button 
+      [class.active]="activeCategoryId === 'all'" 
+      (click)="setFilter('all')">
+      All Courses
+    </button>
+    
+    <button 
+      [class.active]="activeCategoryId === 'my'" 
+      (click)="setFilter('my')">
+      My Courses
+    </button>
+    
+    <div class="divider"></div>
+    
+    @for (cat of categories; track cat.id) {
+      <button 
+        [class.active]="activeCategoryId === cat.id.toString()" 
+        (click)="setFilter(cat.id.toString())">
+        {{ cat.name }}
+      </button>
+    }
+  </div>
+
+  <div class="courses-grid">
+    @for (course of filteredCourses; track course.id) {
+      <div class="course-card">
+        <div class="card-image">
+          <img [src]="course.avatar_url" alt="Course Cover">
+          <span class="category-badge">{{ course.category_name || 'General' }}</span>
+        </div>
+        <div class="card-content">
+          <h3>{{ course.title }}</h3>
+          <p class="author">By {{ course.author_name || 'Admin' }}</p>
+          <button class="view-btn">View Course</button>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <p>Курсов в этой категории пока нет 😢</p>
+      </div>
+    }
+  </div>
+</div>
