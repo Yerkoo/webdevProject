@@ -18,7 +18,7 @@ export class CourseDeteil implements OnInit {
   
   isSaved: boolean = false;
   userRating: number = 0;
-  isOwner: boolean = false; // Flag to check if current user is the author
+  isOwner: boolean = false; 
 
   constructor(
     private route: ActivatedRoute,
@@ -39,7 +39,7 @@ export class CourseDeteil implements OnInit {
         const userObj = JSON.parse(storedUser);
         this.userName = userObj.username || userObj.name || 'Guest';
         this.userEmail = userObj.email || 'guest@example.com';
-        this.currentUserId = userObj.id; // Get current user's ID
+        this.currentUserId = userObj.id; 
       } catch (e) {
         console.error("Error parsing user data:", e);
       }
@@ -54,9 +54,14 @@ export class CourseDeteil implements OnInit {
           this.course = data.find((c: any) => String(c.id) === String(id));
           
           if (this.course) {
-            // Logic to check ownership
-            // Assuming course object has 'author_id' or 'user_id'
-            this.isOwner = this.course.author_id === this.currentUserId;
+            const currentUser = this.userName; 
+            const courseAuthor = this.course.author_name;
+            if (currentUser && courseAuthor && currentUser === courseAuthor) {
+              this.isOwner = true;  
+            } else {
+              this.isOwner = false; 
+            }
+
             this.cdr.detectChanges();
           }
         },
@@ -68,14 +73,14 @@ export class CourseDeteil implements OnInit {
   deleteCourse(): void {
     if (confirm("Are you sure you want to delete this course?")) {
       console.log("Deleting course ID:", this.course.id);
-      // Logic for service call: this.courseService.delete(this.course.id)...
+     
       this.router.navigate(['/main/course']);
     }
   }
 
   updateCourse(): void {
     console.log("Navigating to update page for course ID:", this.course.id);
-    // Logic: this.router.navigate(['/update-course', this.course.id]);
+    
   }
 
   setUserRating(rating: number): void {
@@ -92,7 +97,7 @@ export class CourseDeteil implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  goToMain(): void {
+  goBack(): void {
     this.router.navigate(['/main/course']);
   }
 

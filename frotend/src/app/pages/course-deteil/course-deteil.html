@@ -1,32 +1,12 @@
 <div class="main-page">
-  <header class="topbar">
-    <div class="brand">
-      <div class="brand-logo">LOGO</div>
-      <div class="brand-text">
-        <h1>Online-Course</h1>
-        <p>Learn • Grow • Succeed</p>
-      </div>
-    </div>
-
-    <div class="nav-bar">
-      <a (click)="goToMain()" class="nav-btn active-link">Main Page</a>
-    </div>
-
-    <div class="user-panel">
-      <div class="user-avatar">
-        {{ userName[0]?.toUpperCase() }}{{ userName[1]?.toUpperCase() || '' }}
-      </div>
-      <div class="user-meta">
-        <h3>{{ userName }}</h3>
-        <p>{{ userEmail }}</p>
-      </div>
-      <button class="logout-btn" (click)="logout()" title="Logout">→</button>
-    </div>
-  </header>
-
   <main class="detail-container" *ngIf="course; else loading">
-    <div class="breadcrumb">Programming / <span>{{ course.title }}</span></div>
-
+    
+    <div class="navigation-row">
+      <button class="back-btn" (click)="goBack()">
+        <span class="arrow">←</span> Back to Courses
+      </button>
+      
+    </div>
     <div class="content-grid">
       <div class="text-section">
         <div class="owner-controls" *ngIf="isOwner">

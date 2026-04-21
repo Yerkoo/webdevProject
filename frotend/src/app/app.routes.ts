@@ -5,6 +5,7 @@ import { MainComponent } from './pages/main/main.component';
 import { CourseDeteil } from './pages/course-deteil/course-deteil';
 import { CreateCourse } from './pages/create-course/create-course';
 import { CoursesComponent } from './pages/course/course';
+import { authGuard } from './services/auth-guard';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -12,14 +13,16 @@ export const routes: Routes = [
   { 
     path: 'main', 
     component: MainComponent, 
+    canActivate: [authGuard],
     children: [
       { path: 'course', component: CoursesComponent },
       { path: 'create', component: CreateCourse },
+      { path: 'course/:id', component: CourseDeteil },
       { path: '', redirectTo: 'course', pathMatch: 'full' } 
     ]
   },
   
-  { path: 'course/:id', component: CourseDeteil },
+  
 
   { path: '', redirectTo: 'main', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' }
