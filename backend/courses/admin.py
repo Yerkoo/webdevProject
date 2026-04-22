@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Category, Course, Review
+from .models import Category, Course, Review, Favorite
 
 admin.site.register(Category)
 admin.site.register(Course)
 admin.site.register(Review)
+admin.site.register(Favorite)
