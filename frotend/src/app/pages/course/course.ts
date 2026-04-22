@@ -40,15 +40,21 @@ export class CoursesComponent implements OnInit {
   }
 
   viewCourse(courseId: number) {
-    this.router.navigate(['/course', courseId]); 
+    this.router.navigate(['/main/course', courseId]); 
   }
 
   setFilter(categoryId: string) {
     this.activeCategoryId = categoryId;
     if (categoryId === 'all') {
       this.filteredCourses = this.allCourses; 
-    } else if (categoryId === 'my') {
-      this.filteredCourses = this.allCourses.filter(course => course.author_name === 'yerko');
+    }  else if (categoryId === 'my') {
+      const userString = localStorage.getItem('user'); 
+      let currentUsername = '';
+      if (userString) {
+        const userObject = JSON.parse(userString);
+        currentUsername = userObject.username; 
+      }
+      this.filteredCourses = this.allCourses.filter(course => course.author_name === currentUsername);
     } else {
       this.filteredCourses = this.allCourses.filter(course => course.category?.toString() === categoryId.toString());
     }
