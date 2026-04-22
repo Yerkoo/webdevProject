@@ -2,7 +2,7 @@
   <div class="filter-bar">
     <button [class.active]="activeCategoryId === 'all'" (click)="setFilter('all')">All Courses</button>
     <button [class.active]="activeCategoryId === 'my'" (click)="setFilter('my')">My Courses</button>
-    <button [class.active]="activeCategoryId === 'fav'" (click)="setFilter('fav')">Favorites</button>
+    <button [class.active]="activeCategoryId === 'favorites'" (click)="setFilter('favorites')">Favorites</button>
     <div class="divider"></div>
     @for (cat of categories; track cat.id) {
       <button [class.active]="activeCategoryId === cat.id.toString()" (click)="setFilter(cat.id.toString())">
