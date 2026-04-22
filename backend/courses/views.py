@@ -1,6 +1,6 @@
 from rest_framework import viewsets, permissions
-from .models import Category, Course, Review
-from .serializers import CategorySerializer, CourseSerializer, ReviewSerializer
+from .models import Category, Course, Review, Favorite
+from .serializers import CategorySerializer, CourseSerializer, ReviewSerializer, FavoriteSerializer
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
@@ -21,5 +21,13 @@ class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class FavoriteViewSet(viewsets.ModelViewSet):
+    serializer_class = FavoriteSerializer
+    permission_classes = [permissions.IsAuthenticated] 
+    def get_queryset(self):
+        return Favorite.objects.filter(user=self.request.user)
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
