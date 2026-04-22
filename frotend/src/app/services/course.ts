@@ -36,4 +36,10 @@ export class CourseService {
   removeFavorite(favoriteId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}favorites/${favoriteId}/`);
   }
+  getReviewsByCourse(courseId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}reviews/?course=${courseId}`);
+  }
+  addReview(reviewData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}reviews/`, reviewData);
+  }
 }

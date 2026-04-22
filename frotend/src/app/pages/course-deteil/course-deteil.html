@@ -1,5 +1,5 @@
 <div class="main-page">
-  <main class="detail-container" *ngIf="course; else loading">
+  <main class="detail-container" *ngIf="course; ">
     
     <div class="navigation-row">
       <button class="back-btn" (click)="goBack()">
@@ -46,35 +46,66 @@
     </div>
 
     <section class="reviews-section">
-      <div class="reviews-header">
-        <h2>Reviews & Ratings</h2>
-        <div class="overall-rating-card">
-          <span class="big-score">4.8</span>
-          <div class="stars-col">
-            <div class="stars-row">⭐⭐⭐⭐⭐</div>
-          </div>
-        </div>
+  
+  <div class="reviews-header">
+    <h2>Reviews & Ratings</h2>
+    <div class="overall-rating-card">
+      <span class="big-score">{{ averageRating }}</span>
+      <div class="stars-col">
+        <div class="stars-row">⭐⭐⭐⭐⭐</div>
+        <span style="color: #94a3b8; font-size: 14px;">({{ reviews.length }} reviews)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="review-form-card">
+    <h3>Rate this course</h3>
+    
+    <div class="interactive-rating">
+      <span class="star-rating">
+        <span class="star" *ngFor="let s of [1,2,3,4,5]" 
+              [style.color]="newReviewRating >= s ? '#ffb800' : '#eef1ff'"
+              (click)="newReviewRating = s"
+              style="cursor: pointer; font-size: 24px; transition: color 0.2s;">★</span>
+      </span>
+      <span class="rating-label">{{ newReviewRating > 0 ? newReviewRating + ' / 5' : 'Select a rating' }}</span>
+    </div>
+    
+    <textarea 
+      [(ngModel)]="newReviewText" 
+      placeholder="Write your review here..."
+      rows="4"
+      style="width: 100%; margin-top: 15px; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;"></textarea>
+    
+    <div class="form-footer" style="margin-top: 15px; text-align: right;">
+      <button class="post-btn" (click)="submitReview()">Post Review</button>
+    </div>
+  </div>
+
+  <div class="reviews-list-container" style="margin-top: 40px;">
+    
+    <div *ngIf="reviews.length === 0" style="text-align: center; color: #94a3b8; padding: 20px;">
+      No reviews yet. Be the first to share your thoughts!
+    </div>
+
+    <div class="review-item" *ngFor="let review of reviews" 
+         style="padding: 20px 0; border-bottom: 1px solid #eef1ff;">
+      
+      <div class="review-item-header" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+        <strong style="color: #1e293b; font-size: 16px;">{{ review.user_name }}</strong>
+        <span style="color: #94a3b8; font-size: 14px;">{{ review.created_at | date:'longDate' }}</span>
       </div>
 
-      <div class="review-form-card">
-        <h3>Rate this course</h3>
-        <div class="interactive-rating">
-          <span class="star-rating">
-            <span class="star" *ngFor="let s of [1,2,3,4,5]" 
-                  [style.color]="userRating >= s ? '#ffb800' : '#eef1ff'"
-                  (click)="setUserRating(s)">★</span>
-          </span>
-          <span class="rating-label">{{ userRating > 0 ? userRating + ' / 5' : 'Select a rating' }}</span>
-        </div>
-        <textarea placeholder="Write your review here..."></textarea>
-        <div class="form-footer">
-          <button class="post-btn">Post Review</button>
-        </div>
+      <div class="review-item-stars" style="margin-bottom: 12px;">
+        <span *ngFor="let star of [1, 2, 3, 4, 5]" 
+              [style.color]="review.rating >= star ? '#ffb800' : '#eef1ff'"
+              style="font-size: 18px;">★</span>
       </div>
-    </section>
+
+      <p style="color: #475569; margin: 0; line-height: 1.6;">{{ review.comment }}</p>
+    </div>
+  </div>
+
+</section>
+
   </main>
-</div>
-
-<ng-template #loading>
-  <div class="loader-box">Loading data...</div>
-</ng-template>

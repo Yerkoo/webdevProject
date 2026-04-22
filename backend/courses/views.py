@@ -23,6 +23,13 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+    
+    def get_queryset(self):
+        queryset = Review.objects.all()
+        course_id = self.request.query_params.get('course') # Ловим ID из ссылки
+        if course_id is not None:
+            queryset = queryset.filter(course_id=course_id) # Оставляем только нужные
+        return queryset
 
 class FavoriteViewSet(viewsets.ModelViewSet):
     serializer_class = FavoriteSerializer

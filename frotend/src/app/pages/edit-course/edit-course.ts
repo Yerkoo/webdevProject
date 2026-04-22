@@ -36,7 +36,7 @@ export class EditCourse implements OnInit {
     this.courseService.getCourseById(this.courseId).subscribe(course => {
       this.courseName = course.title; 
       this.courseDescription = course.description;
-      this.youtubeLink = course.youtube_link; 
+      this.youtubeLink = course.video_url; 
       this.avatarUrl = course.avatar_url;
       this.selectedCategoryId = course.category;
     });
@@ -45,7 +45,7 @@ export class EditCourse implements OnInit {
     const updatedData = {
       title: this.courseName,
       description: this.courseDescription,
-      youtube_link: this.youtubeLink,
+      video_url: this.youtubeLink,
       avatar_url: this.avatarUrl,
       category: this.selectedCategoryId
     };
