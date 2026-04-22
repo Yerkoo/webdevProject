@@ -31,3 +31,11 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review by {self.user.username} for {self.course.title}"
+
+class Favorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorites')
+    course = models.ForeignKey('Course', on_delete=models.CASCADE, related_name='favorited_by')
+    class Meta:
+        unique_together = ('user', 'course')
+    def __str__(self):
+        return f"{self.user.username} saved {self.course.title}"
