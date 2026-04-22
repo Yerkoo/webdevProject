@@ -73,8 +73,12 @@ export class CourseDeteil implements OnInit {
   deleteCourse(): void {
     if (confirm("Are you sure you want to delete this course?")) {
       console.log("Deleting course ID:", this.course.id);
-     
-      this.router.navigate(['/main/course']);
+      this.courseService.deleteCourse(this.course.id).subscribe({
+        next: () => {
+          this.router.navigate(['/main/course']);
+        },
+        error: (err) => console.error("Error deleting course:", err)
+      });
     }
   }
 
@@ -90,11 +94,6 @@ export class CourseDeteil implements OnInit {
 
   toggleSave(): void {
     this.isSaved = !this.isSaved;
-  }
-
-  logout(): void {
-    localStorage.removeItem('user');
-    this.router.navigate(['/login']);
   }
 
   goBack(): void {
