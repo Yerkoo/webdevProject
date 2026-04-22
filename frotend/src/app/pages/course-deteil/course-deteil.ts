@@ -84,7 +84,7 @@ export class CourseDeteil implements OnInit {
 
   updateCourse(): void {
     console.log("Navigating to update page for course ID:", this.course.id);
-    
+    this.router.navigate(['/main/course/edit', this.course.id]);
   }
 
   setUserRating(rating: number): void {

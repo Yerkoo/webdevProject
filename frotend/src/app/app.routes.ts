@@ -6,6 +6,7 @@ import { CourseDeteil } from './pages/course-deteil/course-deteil';
 import { CreateCourse } from './pages/create-course/create-course';
 import { CoursesComponent } from './pages/course/course';
 import { authGuard } from './services/auth-guard';
+import { EditCourse } from './pages/edit-course/edit-course';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -18,6 +19,7 @@ export const routes: Routes = [
       { path: 'course', component: CoursesComponent },
       { path: 'create', component: CreateCourse },
       { path: 'course/:id', component: CourseDeteil },
+      { path: 'course/edit/:id', component: EditCourse},
       { path: '', redirectTo: 'course', pathMatch: 'full' } 
     ]
   },
