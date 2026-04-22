@@ -1,0 +1,14 @@
+$kind: collection
+name: 'Django REST API'
+description: 'Collection for discovered Django REST API endpoints.'
+variables:
+  - key: baseUrl
+    value: 'http://127.0.0.1:8000'
+  - key: accessToken
+    value: ''
+  - key: refreshToken
+    value: ''
+  - key: categoryId
+    value: '1'
+  - key: courseId
+    value: '1'

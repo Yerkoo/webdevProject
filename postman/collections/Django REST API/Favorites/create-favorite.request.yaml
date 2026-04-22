@@ -1,0 +1,16 @@
+$kind: http-request
+name: Create Favorite
+method: POST
+url: '{{baseUrl}}/api/favorites/'
+order: 2000
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: Authorization
+    value: 'Bearer {{accessToken}}'
+body:
+  type: json
+  content: |-
+    {
+      "course": "{{courseId}}"
+    }

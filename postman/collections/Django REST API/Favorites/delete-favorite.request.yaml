@@ -1,0 +1,8 @@
+$kind: http-request
+name: Delete Favorite
+method: DELETE
+url: '{{baseUrl}}/api/favorites/1/'
+order: 5000
+headers:
+  - key: Authorization
+    value: 'Bearer {{accessToken}}'

@@ -1,0 +1,18 @@
+$kind: http-request
+name: Update Review
+method: PUT
+url: '{{baseUrl}}/api/reviews/1/'
+order: 4000
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: Authorization
+    value: 'Bearer {{accessToken}}'
+body:
+  type: json
+  content: |-
+    {
+      "rating": 4,
+      "comment": "Updated review",
+      "course": "{{courseId}}"
+    }

@@ -1,0 +1,20 @@
+$kind: http-request
+name: Create Course
+method: POST
+url: '{{baseUrl}}/api/courses/'
+order: 2000
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: Authorization
+    value: 'Bearer {{accessToken}}'
+body:
+  type: json
+  content: |-
+    {
+      "title": "Django Basics",
+      "description": "Intro course",
+      "video_url": "https://example.com/video",
+      "avatar_url": "https://example.com/image.png",
+      "category": "{{categoryId}}"
+    }

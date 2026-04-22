@@ -1,0 +1,8 @@
+$kind: http-request
+name: Delete Course
+method: DELETE
+url: '{{baseUrl}}/api/courses/{{courseId}}/'
+order: 5000
+headers:
+  - key: Authorization
+    value: 'Bearer {{accessToken}}'

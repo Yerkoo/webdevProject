@@ -1,0 +1,8 @@
+$kind: http-request
+name: Delete Review
+method: DELETE
+url: '{{baseUrl}}/api/reviews/1/'
+order: 5000
+headers:
+  - key: Authorization
+    value: 'Bearer {{accessToken}}'

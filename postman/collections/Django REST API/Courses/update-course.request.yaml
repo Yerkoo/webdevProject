@@ -1,0 +1,20 @@
+$kind: http-request
+name: Update Course
+method: PUT
+url: '{{baseUrl}}/api/courses/{{courseId}}/'
+order: 4000
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: Authorization
+    value: 'Bearer {{accessToken}}'
+body:
+  type: json
+  content: |-
+    {
+      "title": "Django Basics Updated",
+      "description": "Updated intro course",
+      "video_url": "https://example.com/video2",
+      "avatar_url": "https://example.com/image2.png",
+      "category": "{{categoryId}}"
+    }
