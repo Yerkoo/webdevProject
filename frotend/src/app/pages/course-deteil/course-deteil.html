@@ -1,41 +1,24 @@
 <div class="main-page">
-  <header class="topbar">
-    <div class="brand">
-      <div class="brand-logo">LOGO</div>
-      <div class="brand-text">
-        <h1>Online-Course</h1>
-        <p>Learn • Grow • Succeed</p>
-      </div>
-    </div>
-
-    <div class="nav-bar">
-      <button (click)="goToMain()" class="nav-btn active-link">Main Page</button>
-    </div>
-
-    <div class="user-panel">
-      <div class="user-avatar">{{ userName[0]?.toUpperCase() }}</div>
-      <div class="user-meta">
-        <h3>{{ userName }}</h3>
-        <p>{{ userEmail }}</p>
-      </div>
-      <button class="logout-btn" (click)="logout()">→</button>
-    </div>
-  </header>
-
   <main class="detail-container" *ngIf="course; else loading">
-    <div class="breadcrumb">Courses / <span>{{ course.title }}</span></div>
-
+    
+    <div class="navigation-row">
+      <button class="back-btn" (click)="goBack()">
+        <span class="arrow">←</span> Back to Courses
+      </button>
+      
+    </div>
     <div class="content-grid">
       <div class="text-section">
         <div class="owner-controls" *ngIf="isOwner">
-          <button class="control-btn update" (click)="updateCourse()">✏️ Update Course</button>
-          <button class="control-btn delete" (click)="deleteCourse()">🗑️ Delete Course</button>
+          <button class="control-btn update" (click)="updateCourse()">Update Course</button>
+          <button class="control-btn delete" (click)="deleteCourse()">Delete Course</button>
         </div>
 
         <h1 class="course-title">{{ course.title }}</h1>
         <p class="tagline">{{ course.description }}</p>
+        
         <p class="full-description">
-          {{ course.full_description || 'No detailed description provided for this course yet.' }}
+          {{ course.full_description || 'This is a comprehensive course designed to help you master the subject from scratch.' }}
         </p>
 
         <div class="stats-bar">
@@ -45,16 +28,19 @@
         </div>
 
         <div class="action-row">
-          <button class="start-btn">▶ Start Learning</button>
-          <button class="save-btn" [class.saved]="isSaved" (click)="toggleSave()">
-            {{ isSaved ? '❤️ Saved' : '🤍 Save to Favorites' }}
+          <button class="start-btn" (click)="startLearning()">
+            <span>▶</span> Start Learning
+          </button>
+          <button class="save-btn" (click)="toggleFavorite()" [ngClass]="{'active-heart': isFavorite}">
+            <span *ngIf="!isFavorite">🤍 Save to Favorites</span>
+            <span *ngIf="isFavorite">❤️ Saved</span>
           </button>
         </div>
       </div>
 
       <div class="image-section">
         <div class="course-card-preview">
-          <img [src]="course.avatar_url" alt="Course Banner">
+          <img [src]="course.avatar_url" alt="Course Image">
         </div>
       </div>
     </div>
@@ -64,22 +50,31 @@
         <h2>Reviews & Ratings</h2>
         <div class="overall-rating-card">
           <span class="big-score">4.8</span>
-          <span class="stars-row">⭐⭐⭐⭐⭐</span>
+          <div class="stars-col">
+            <div class="stars-row">⭐⭐⭐⭐⭐</div>
+          </div>
         </div>
       </div>
 
       <div class="review-form-card">
         <h3>Rate this course</h3>
         <div class="interactive-rating">
-          <span class="star" *ngFor="let s of [1,2,3,4,5]" 
-                [style.color]="userRating >= s ? '#ffb800' : '#e2e8f0'"
-                (click)="setUserRating(s)">★</span>
+          <span class="star-rating">
+            <span class="star" *ngFor="let s of [1,2,3,4,5]" 
+                  [style.color]="userRating >= s ? '#ffb800' : '#eef1ff'"
+                  (click)="setUserRating(s)">★</span>
+          </span>
+          <span class="rating-label">{{ userRating > 0 ? userRating + ' / 5' : 'Select a rating' }}</span>
         </div>
         <textarea placeholder="Write your review here..."></textarea>
-        <button class="post-btn">Post Review</button>
+        <div class="form-footer">
+          <button class="post-btn">Post Review</button>
+        </div>
       </div>
     </section>
   </main>
 </div>
 
-<ng-template #loading><div class="loader">Loading course data...</div></ng-template>
+<ng-template #loading>
+  <div class="loader-box">Loading data...</div>
+</ng-template>
