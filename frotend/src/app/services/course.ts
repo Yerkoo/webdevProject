@@ -27,4 +27,13 @@ export class CourseService {
   updateCourse(id: number, courseData: any): Observable<any> {
     return this.http.put(`${this.apiUrl}courses/${id}/`, courseData);
   }
+  getFavorites(): Observable<any> {
+    return this.http.get(`${this.apiUrl}favorites/`);
+  }
+  addFavorite(courseId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}favorites/`, { course: courseId });
+  }
+  removeFavorite(favoriteId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}favorites/${favoriteId}/`);
+  }
 }

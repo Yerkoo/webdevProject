@@ -15,8 +15,8 @@ export class CourseDeteil implements OnInit {
   userName: string = 'Guest';
   userEmail: string = 'guest@example.com';
   currentUserId: number | null = null;
-  
-  isSaved: boolean = false;
+  isFavorite: boolean = false; 
+  favoriteId: number | null = null;
   userRating: number = 0;
   isOwner: boolean = false; 
 
@@ -92,9 +92,37 @@ export class CourseDeteil implements OnInit {
     this.cdr.detectChanges();
   }
 
-  toggleSave(): void {
-    this.isSaved = !this.isSaved;
+  checkIfFavorite(): void {
+    this.courseService.getFavorites().subscribe(favorites => {
+      const existingFavorite = favorites.find((fav: any) => fav.course === this.course.id);
+      if (existingFavorite) {
+        this.isFavorite = true; 
+        this.favoriteId = existingFavorite.id; 
+      }
+    });
   }
+
+  toggleFavorite(): void {
+    if (this.isFavorite && this.favoriteId !== null) {
+      this.courseService.removeFavorite(this.favoriteId).subscribe({
+        next: () => {
+          this.isFavorite = false;
+          this.favoriteId = null; 
+        },
+        error: (err) => console.error('Error removing favorite', err)
+      });
+    } 
+    else {
+      this.courseService.addFavorite(this.course.id).subscribe({
+        next: (response) => {
+          this.isFavorite = true; 
+          this.favoriteId = response.id; 
+        },
+        error: (err) => console.error('Error adding favorite', err)
+      });
+    }
+  }
+  
 
   goBack(): void {
     this.router.navigate(['/main/course']);

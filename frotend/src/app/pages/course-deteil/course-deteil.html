@@ -31,9 +31,9 @@
           <button class="start-btn" (click)="startLearning()">
             <span>▶</span> Start Learning
           </button>
-          <button class="save-btn" [class.saved]="isSaved" (click)="toggleSave()">
-            <span class="heart-icon">{{ isSaved ? '❤️' : '🤍' }}</span>
-            {{ isSaved ? 'Saved' : 'Save to Favorites' }}
+          <button class="save-btn" (click)="toggleFavorite()" [ngClass]="{'active-heart': isFavorite}">
+            <span *ngIf="!isFavorite">🤍 Save to Favorites</span>
+            <span *ngIf="isFavorite">❤️ Saved</span>
           </button>
         </div>
       </div>
