@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Category, Course, Review, Favorite
 
+# MODEL SERIALIZERS 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
