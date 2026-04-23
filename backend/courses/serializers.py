@@ -1,11 +1,17 @@
 from rest_framework import serializers
 from .models import Category, Course, Review, Favorite
 
-# MODEL SERIALIZERS 
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ['id', 'name']
+class CategorySerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True) 
+    name = serializers.CharField(max_length=255) 
+
+    def create(self, validated_data):
+        return Category.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.save()
+        return instance
 
 class CourseSerializer(serializers.ModelSerializer):
     author_name = serializers.ReadOnlyField(source='author.username')
@@ -24,8 +30,15 @@ class ReviewSerializer(serializers.ModelSerializer):
         fields = ['id', 'rating', 'comment', 'course', 'user', 'user_name', 'created_at']
         read_only_fields = ['user']
 
-class FavoriteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Favorite
-        fields = ['id', 'user', 'course']
-        read_only_fields = ['user']
+class FavoriteSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    user = serializers.PrimaryKeyRelatedField(read_only=True) 
+    course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all())
+
+    def create(self, validated_data):
+        return Favorite.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.course = validated_data.get('course', instance.course)
+        instance.save()
+        return instance
